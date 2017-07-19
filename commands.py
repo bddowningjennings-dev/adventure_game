@@ -9,6 +9,30 @@ def gameOver():
 ******************************************************
 
 	"""
+def buyer(player, world, capture):
+	capture = ' '.join(capture)
+	for npc in world[player.y][player.x].npcs:
+		if npc.type == 'merchant':
+			if not capture:
+				npc.listItems()
+				return
+			for item in npc.inventory:
+				if re.search( capture, item['item'].name) and player.gold >= item['cost']:
+					print 'here'
+					player.gold -= item['cost']
+					player.inventory.append(item['item'])
+					print """ \033[34m
+You bought a {}.
+						\033[37m""".format(item['item'].name)
+					npc.inventory.remove(item)
+					return
+			npc.listItems()
+			return
+	print """ \033[34m
+There is not a seller here.
+\033[37m"""
+
+			
 
 def attacker(player, world, capture):
 	capture = ' '.join(capture)
@@ -43,14 +67,17 @@ def equipper(player, world, capture):
 	for item in player.inventory:
 		if re.search( capture, item.name)  or  hasattr(item,'category') and re.search( capture, item.category):
 			if item.type == 'weapon':
+				temp = player.hold
 				player.hold = item
-				player.inventory.remove(item)
+				player.inventory.remove(item)	
+				if temp:
+					player.inventory.append(temp)
+					player.attack -= temp.attack 
 				player.attack += item.attack
 			 	print ''
 				print '\033[32mYou are holding {}.\033[37m'.format(item.name)
 				print ''
 				return
-
 	print "I don't see a {} in your inventory.".format(capture)
 
 
@@ -80,7 +107,6 @@ You are not holding that.
 def inventory(player, world, capture):
 	items =  '\n' +'\n '.join('            {}                                               '.format(x.name) for x in player.inventory)
 	
-	print items
 	print """
 
 `````````````````````````````````````````````````````````````
@@ -277,6 +303,8 @@ def command(input, player, world):
 		attacker(player, world, capture[1::])
 	if capture[0] == 'eat':
 		eatter(player, world, capture[1::])
+	if capture[0] == 'buy':
+		buyer(player, world, capture[1::])
 
 
 

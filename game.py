@@ -1,7 +1,7 @@
 from player import Player
 from map import world
 from commands import command
-print world
+
 
 
 print """

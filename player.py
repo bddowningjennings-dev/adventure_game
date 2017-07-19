@@ -9,6 +9,7 @@ class Player(object):
 		self.health = 50
 		self.y = 1
 		self.x =2
+		self.gold = 100
 
 
 

@@ -16,7 +16,6 @@ class Room(object):
 		for npc in args:
 			self.npcs.append(npc)
 	def describe(self):
-
 		print "\033[36m"
 		print self.description
 		for item in self.items:

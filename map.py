@@ -1,6 +1,6 @@
 from room import Room
 from item import Item, Weapon, Key, Food
-from npc import Npc, Rat, Goblin, Troll
+from npc import Npc, Rat, Goblin, Troll, KingRat, Merchant, BabyDragon
 
 #room one setup
 r1 = Room('This room is dimly lit.')
@@ -8,7 +8,7 @@ r1.addItem(Weapon('rusty sword', 'Something Shinny caught your eye. It looks lik
 r1.addItem(Food('apple', 'A juicy look apple sits here.', 'This apple is to perfect to eat.'))
 r1.addNpc(Rat(), Rat())
 r =Rat()
-print r
+
 
 
 
@@ -25,13 +25,17 @@ r3= Room('There is a merchant in the corner. He looks shady.')
 
 
 #room four setup
-r4= Room('this is a road. its leading west.')
+r4= Room('this is a road. its leading west and east.')
 r2.addNpc(Goblin(), Troll() )
 
 #room five setup
 r5= Room("this is the end of the road. There is an ocean that seems to have strong currents. No, you can't swim. There seems to be a room to your south")
 r5.addItem( Weapon('rock','A small rock. nothing great.','This rock is quite nice when you look at it. ','rock', 1,  'boop'))
 r5.addItem( Weapon('rock','A small rock. nothing great.', 'This rock is quite nice when you look at it. ','rock', 1,  'boop'))
+r5Merchant = Merchant()
+r5Merchant.addItem(Weapon('rock','A small rock. nothing great.','This rock is quite nice when you look at it. ','rock', 1,  'boop'))
+r5Merchant.addItem(Food('pizza','Is that pizza on the ground?','Papa Johns pizza. With Pepporoni. My god.', 21))
+r5.addNpc(r5Merchant)
 
 #room six setup
 r6= Room("You are at a main enterance of a building.")
@@ -41,7 +45,13 @@ r6= Room("You are at a main enterance of a building.")
 
 #room seven setup
 r7= Room("You are inside a small hallway")
+r7.addNpc(KingRat())
 
+
+
+#room eight
+r8 = Room('To your south, you see a small cave. East of you seems to be a path. ')
+r8.addNpc(BabyDragon())
 
 
 
@@ -49,7 +59,7 @@ r7= Room("You are inside a small hallway")
 
 
 world = [
-	[0,r3,r2,r4,r5],
+	[r8,r3,r2,r4,r5],
 	[0,0,r1,0,r6],
 	[0,0,0,0,r7],
 ]

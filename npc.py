@@ -1,7 +1,7 @@
 from item import Food, Weapon
 import random
 class Npc(object):
-	def __init__(self,  health, attack):
+	def __init__(self,  health=None, attack=None):
 		self.health = health
 		self.attack = attack
 		self.attackable = False
@@ -19,7 +19,42 @@ class Npc(object):
 				self.inventory.append(possibleItems[random.randint(0,len(possibleItems)-1)])
 			count +=1
 
+class Merchant(Npc):
+    def __init__(self, vague = None, description = None):
+        super(Merchant, self).__init__()
+        self.type = 'merchant'
+        self.vague = 'A merchant looks ready to sell you something.'
+        self.description = 'This merchant looks as if he knows a thing or two.'
+    def addItem(self,  item):
+        if item.type == 'weapon':
+            if item.attack <= 20:
+                cost = 20
+            elif item.attack > 20 and item.attack < 40:
+                cost = 40
+            elif item.attack > 40 and item.attack < 80:
+                cost = 60
+            elif item.attack > 80 and item.attack < 120:
+                cost = 80
 
+
+        if item.type == 'food':
+            if item.heal <= 20:
+                cost = 20
+            elif item.heal > 20 and item.heal < 40:
+                cost = 40
+            elif item.heal > 40 and item.heal < 80:
+                cost = 60
+            elif item.heal > 80 and item.heal < 120:
+                cost = 80
+        addItem = {'item': item, 'cost': cost}
+        self.inventory.append(addItem)
+    def listItems(self):
+        print "\033[36m Heres what I got: \033[37m"
+        for item in self.inventory:
+             print "\033[36m I have a {} that will cost you {}.\033[37m".format(item['item'].name, item['cost'] )
+             
+    
+    
 
 
 class Rat(Npc):
@@ -30,7 +65,9 @@ class Rat(Npc):
         self.description = 'On closer look, this rat looks like he has rabies.'
         self.attackable = True
         possibleItems =[
-        	Food('cheese', 'The aroma emitting from the chuck of swiss cheese excites you.', 'This cheese looks semi edible', 6),
+        	Food('cheese', 'The aroma emitting from the chuck of swiss cheese excites you.', 'This cheese looks semi edible', 6
+
+        		),
         	Food('garbage', 'A disgusting pile of garbage sits on the floor.', "The smell is horrible. I wouldn't eat it", -10),
         	]
         self.genInventory(possibleItems)
@@ -62,6 +99,35 @@ class Troll(Npc):
 			Weapon(' Common sword',"You've seen this sword before. It's sold everywhere. What's it doing just sitting here?",'This sword is well kept.','sword', 14,  'slash!')
         	]
         self.genInventory(possibleItems)
+
+
+class KingRat(Npc):
+    def __init__(self,  health=70, attack=15):
+        super(KingRat, self).__init__(health, attack)
+        self.type = 'king rat'
+        self.vague = 'There is a troll wearing a crown. He must be part of a royal family'
+        self.description = "I wouldn't start a fight with this Troll."
+        self.attackable = True
+        possibleItems =[
+            Food(' large morsel', "There's a large chunk of uncooked meat on the ground.", 'You would cook this piece of meat if you knew how.', 40),
+            Food(' big morsel', "There's a large chunk of uncooked meat on the ground.", 'You would cook this piece of meat if you knew how.', 15),
+            Weapon(' king sword',"Legends have been told of this sword",'This sword is wvery nice. You should pawn it.','sword', 30,  'slash!')
+            ]
+        self.genInventory(possibleItems)
+class BabyDragon(Npc):
+    def __init__(self,  health=30, attack=20):
+        super(BabyDragon, self).__init__(health, attack)
+        self.type = 'baby dragon'
+        self.vague = 'There is a baby dragon breathing fire on the ground here. '
+        self.description = "This dragon will grow to be a fine dragon. You better kill it now."
+        self.attackable = True
+        possibleItems =[
+            Food(' large morsel', "There's a large chunk of uncooked meat on the ground.", 'You would cook this piece of meat if you knew how.', 40),
+            Food(' big morsel', "There's a large chunk of uncooked meat on the ground.", 'You would cook this piece of meat if you knew how.', 15)
+            ]
+        self.genInventory(possibleItems)
+
+
  
 
 
