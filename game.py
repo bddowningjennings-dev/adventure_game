@@ -1,9 +1,14 @@
+from __future__ import division
 from player import Player
 from map import world
 from commands import command
+from misc_funcs import health_colorer
 
 
 
+
+    
+print 40/60
 print """
 	\033[35m
 
@@ -46,7 +51,11 @@ world[newPlayer.y][newPlayer.x].describe()
 command('dirs',newPlayer, world)
 gameState = {"status": True}
 while gameState['status'] :
-	capture = raw_input("""Type help to see a list of possible commands.  
-Enter a command.  >> """)
-	command(capture, newPlayer, world)
+  health_percentage = int(newPlayer.health/newPlayer.max_health * 100)
+  health_color = health_colorer(health_percentage)
+  prompt_str = """Type help to see a list of possible commands. 
+{} Enter a command. >>  """.format(health_color + str('{0:.0f}'.format(health_percentage))+ '%' + '\033[0m' )
+  print prompt_str
+  capture = raw_input(prompt_str)
+  command(capture, newPlayer, world)
 
